@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>윷 던지기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #yutSticks {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .stick {
+            width: 20px;
+            height: 60px;
+            background-color: #8b4513;
+            border-radius: 5px;
+        }
+        .front {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>윷 던지기 게임</h1>
+        <button onclick="throwYut()">윷 던지기</button>
+        <div id="result"></div>
+        <div id="yutSticks"></div>
+    </div>
+    <script>
+        function throwYut() {
+            // 윷 던지기: 윷 4개의 랜덤 결과 생성 (0: 뒤집힘, 1: 안 뒤집힘)
+            const yutResults = Array.from({ length: 4 }, () => Math.round(Math.random()));
+            
+            // 윷 결과 출력 영역
+            const yutSticks = document.getElementById("yutSticks");
+            yutSticks.innerHTML = '';
+            
+            // 윷 결과를 화면에 표시
+            yutResults.forEach(result => {
+                const stick = document.createElement("div");
+                stick.classList.add("stick");
+                if (result === 1) {
+                    stick.classList.add("front"); // 흰색 표시
+                }
+                yutSticks.appendChild(stick);
+            });
+
+            // 결과 계산 (1의 개수로 결과 판단)
+            const count = yutResults.reduce((acc, val) => acc + val, 0);
+            let resultText;
+            
+            switch(count) {
+                case 1:
+                    resultText = "도 (1칸)";
+                    break;
+                case 2:
+                    resultText = "개 (2칸)";
+                    break;
+                case 3:
+                    resultText = "걸 (3칸)";
+                    break;
+                case 4:
+                    resultText = "윷 (4칸, 한 번 더)";
+                    break;
+                case 0:
+                    resultText = "모 (5칸, 한 번 더)";
+                    break;
+            }
+
+            // 결과 텍스트 출력
+            document.getElementById("result").innerText = resultText;
+        }
+    </script>
+</body>
+</html>
